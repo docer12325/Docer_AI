@@ -4,7 +4,7 @@ from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 # Установка токенов
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")  # Токен вашего Telegram-бота
+TELEGRAM_TOKEN = os.getenv("7716344841:AAH7KPM-prv4bVvAb0TbA3e3RAGjlZmeSvc")  # Токен вашего Telegram-бота
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")  # Ваш ключ API OpenAI
 
 openai.api_key = OPENAI_API_KEY
@@ -33,7 +33,7 @@ def respond_to_message(update: Update, context: CallbackContext):
 
 def main():
     # Создание бота
-    updater = Updater(TELEGRAM_TOKEN)
+    updater = Updater(7716344841:AAH7KPM-prv4bVvAb0TbA3e3RAGjlZmeSvc)
 
     dispatcher = updater.dispatcher
 
