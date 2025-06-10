@@ -5,7 +5,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 
 # Установка токенов
 TELEGRAM_TOKEN = os.getenv("7716344841:AAH7KPM-prv4bVvAb0TbA3e3RAGjlZmeSvc")  # Токен вашего Telegram-бота
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")  # Ваш ключ API OpenAI
+OPENAI_API_KEY = os.getenv("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")  # Ваш ключ API OpenAI
 
 openai.api_key = OPENAI_API_KEY
 
