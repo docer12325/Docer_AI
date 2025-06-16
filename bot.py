@@ -1,51 +1,28 @@
-import os
-import openai
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+import openai
+import os
 
-# Установка токенов
-TELEGRAM_TOKEN = os.getenv("7716344841:AAH7KPM-prv4bVvAb0TbA3e3RAGjlZmeSvc")  # Токен вашего Telegram-бота
-OPENAI_API_KEY = os.getenv("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")  # Ваш ключ API OpenAI
+TOKEN = os.getenv("7716344841:AAH7KPM-prv4bVvAb0TbA3e3RAGjlZmeSvc")
+OPENAI_KEY = os.getenv("proj-bpe7cFPZm79PS-mH5fBoy7ZUoAH1D5JTy-DUiPNDlBT0lbpvHQjU-6-YBp0RRRuZNuazecYy_MT3BlbkFJ3fA0kQf60YI2V2aqKWJH3kqX_r8ymsA_M-17nJv1XRjvE8GeRT-8UoAObvc2obZlLdEhhdVMwA") # Ключ от OpenAI
 
-openai.api_key = OPENAI_API_KEY
+openai.api_key = OPENAI_KEY
 
-# Команда /start
-def start(update: Update, context: CallbackContext):
-    update.message.reply_text(
-        "Привет! Я ИИ бот. Как я могу помочь вам сегодня?"
+async def chat_gpt(update: Update, context: CallbackContext):
+    user_text = update.message.text
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": user_text}]
     )
-
-# Обработка текстовых сообщений
-def respond_to_message(update: Update, context: CallbackContext):
-    user_message = update.message.text
-
-    try:
-        # Генерация ответа с использованием OpenAI
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # Укажите нужную модель
-            messages=[{"role": "user", "content": user_message}]
-        )
-        bot_reply = response.choices[0].message['content']
-        update.message.reply_text(bot_reply)
-    except Exception as e:
-        update.message.reply_text("Произошла ошибка. Попробуйте еще раз.")
-        print(e)
+    answer = response.choices[0].message["content"]
+    await update.message.reply_text(answer)
 
 def main():
-    # Создание бота
-    updater = Updater(7716344841:AAH7KPM-prv4bVvAb0TbA3e3RAGjlZmeSvc)
-
-    dispatcher = updater.dispatcher
-
-    # Обработка команд
-    dispatcher.add_handler(CommandHandler("start", start))
-
-    # Обработка текстовых сообщений
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, respond_to_message))
-
-    # Запуск бота
+    updater = Updater(TOKEN)
+    dp = updater.dispatcher
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, chat_gpt))
     updater.start_polling()
     updater.idle()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
